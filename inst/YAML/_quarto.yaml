@@ -1,32 +1,27 @@
-project:
-  type: website
-  output-dir: "_site"
-  render:
-    - "main"
-    - "rapporter"
-    # - "tidsserier"
-
 website:
-  title: "Spørsmål til Skole-Norge"
+  title: "NIFU-PROSJEKT: Endre tittel i _quarto.yaml"
   navbar:
-    logo: "https://www.nifu.no/wp-content/uploads/logo_hvit.png"
+    logo: "https://www.nifu.no/wp-content/uploads/logo_hvit.png"
     left:
-      - file: "main/om_prosjektet.qmd"
-      - file: "main/om_metode.qmd"
-      - sidebar:rapporter
-      - file: "main/tidligere_rapporter.qmd"
-      # - sidebar:tidsserier
+      - id: main
+        title: "Om prosjektet"
+        contents: "main"
+      - sidebar:reports
   sidebar:
-    - id: rapporter
+    - id: reports
       title: "Rapporter"
-      contents: "rapporter"
-    # - id: tidsserier
-    #   title: "Tidsserier"
-    #   contents: "tidsserier"
+      contents: "Rapporter"
+
+project_no: '2XXXXX'
+funder: Utdanningsdirektoratet
+funder_address: Schweigaards gate 15B, 0191 Oslo
+isbn: 978-82-327-0607-5
+figure_table: true
+table_table: true
 
 execute:
   freeze: auto
-  cache: true
+  cache: false
 
-metadata-files:
-  - _nifu_global.yaml # Must be in same folder/subfolder
+metadata-files: # Defaults for all NIFU projects
+  - _global.yaml # Must be in same folder/subfolder

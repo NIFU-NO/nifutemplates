@@ -5,12 +5,17 @@ project:
     browser: true
     host: 127.0.0.1
     navigate: true
+  pre-render:
+    - "_extensions/rename_duplicate_labels.R"
   post-render:
-    - "../Z_Resources/Lua/remove_empty_headings.lua"
-
+    - "_extensions/render_full_versions.R"
+#    - "_extensions/replace_docx_images_with_mscharts.R"
+filters:
+  - remove_empty_headings
 execute:
   echo: false
   warning: false
+  message: false
   execute-dir: project
 
 website:
@@ -26,14 +31,13 @@ website:
 number-sections: true
 number-depth: 3
 toc: true
-toc-depth: 4
+toc-depth: 3
 
 ### Hvordan vise figurer og tabeller, samt figur/tabelltekster
-fig-dpi: 500
-prefer-html: true
-df-print: kable
+fig-dpi: 800
 lot: true
 lof: true
+df-print: kable
 crossref:
  chapters: true
  fig-title: '**Figur**'
@@ -45,31 +49,44 @@ crossref:
  tbl-prefix: Tabell
  ref-hyperlink: true
  labels: arabic
+# custom:
+#  - kind: float
+#    reference-prefix: Figur
+#    key: fig
+#  - kind: float
+#    reference-prefix: Tabell
+#    key: tbl
 fig-cap-location: bottom
 tbl-cap-location: top
+
 
 lang: "nb"
 license: "CC BY 4.0"
 
-quarto-required: ">= 1.4.156"
+quarto-required: ">= 1.5"
 
-### Bibliografi, samt hvordan sitere rapportene
-csl: "../Z_Resources/CitationStyles/nifu.csl"
+### Bibliografiformattering, samt hvordan sitere rapportene
+csl: "bib_style.csl"
 google-scholar: true
 reference-location: margin
 citation-location: margin
 appendex-cite-as: false
 cache.comments: false
+date: "`r Sys.Date()`"
+date-format: DD.MM.YYYY
+issn: "1894-8200 (online)"
+title: "`r basename(getwd())`"
 
 format:
+  typst: default
   html:
     mainfont: "Calibri"
     fontsize: "10.5"
     linestretch: 1.6
     theme:
      - yeti
-     - "../Z_Resources/CSS/nifu.scss"
-    css: "../Z_Resources/CSS/nifu.css"
+     - "styles.scss"
+    css: "styles.css"
     toc: true
     comments:
       hypothesis: false
@@ -77,25 +94,6 @@ format:
       text: |
         <script>
           document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll("figcaption").forEach(e => {e.innerHTML = e.innerHTML.replace(/^(Figure&nbsp;\d+)/, "<strong>$1</strong>")})
+            document.querySelectorAll("figcaption").forEach(e => {e.innerHTML = e.innerHTML.replace(/^(Figur&nbsp;\d+)/, "<strong>$1</strong>")})
           });
         </script>
-  docx:
-    reference-doc: "../Z_Resources/DOCX/nifu.docx"
-    number-sections: false
-  # pdf:
-  #   latex-auto-install: true
-  #   latex-auto-mk: true
-  #   documentclass: "../Z_Resources/LaTeX/nifu"
-  #   classoption: [norsk, report]
-  #   pdf-engine: pdflatex
-  #   include-in-header:
-  #     - file: "../Z_Resources/LaTeX/NIFU_preamble.tex"
-  #   output-file: "PDF/Rapport.pdf"
-  #   colorlinks: true
-  #   shift-heading-level-by: -1
-  #   top-level-division: chapter
-  #   toc: false # Ordnes av NIFUs LaTeX-mal
-  #   lot: false # Ordnes av NIFUs LaTeX-mal
-  #   lof: false # Ordnes av NIFUs LaTeX-mal
-

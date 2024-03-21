@@ -1,0 +1,15 @@
+---
+report_no: "20XX:X"
+abstract: ""
+preface: ""
+signer_1: "XXXXXXX"
+signer_1_title: "Forskningsleder"
+signer_2: "Vibeke Opheim"
+signer_2_title: "Direktør"
+figure_table: true
+table_table: true
+report_type: rapport
+format:
+  nifu_pub-typst: default
+  nifudocx-docx: default
+---
