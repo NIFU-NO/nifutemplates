@@ -1,0 +1,18 @@
+---
+format: html
+title: Rapporter
+---
+
+# Kort om våre rapporter
+
+-	**Det er nettsidene i menyen til venstre som utgjør den interaktive rapporten.** Noen steder vil man kunne finne Word (docx)- og PDF-filer, men disse er eksperimentelle, foreløpig ikke like pene som HTML-sidene, og vil aldri tilby interaktiviteten som nettstedet tilbyr. Det vil oftest bli penere å skrive ut nettsidene som PDF enn å laste ned PDF-filene.
+
+-	Finnes ikke tabellen/figuren kan det skyldes anonymitetshensyn. Vi skjuler disse dersom det er få som har svart på spørsmålet, eller kombinasjonen gjør at noen vil kunne identifiseres.
+
+-	Nederst i venstre meny, innenfor en gjennomføring, vil man iblant finne institusjonsspesifikke rapporter der man kan sammenligne en institusjon med alle andre. Dette kan kreve brukernavn og passord. Dette har kontaktperson ved institusjonen mottatt.
+
+-	Vi har ikke mulighet til å tolke, analysere eller tilpasse rapportene utover det som er publisert her.
+
+-	Rapportene står oppført under det semesteret dataene ble innsamlet. Så for eksempel 2023V betyr at dataene ble innhentet våren 2023.
+
+-	For mer, se https://saros.nifu.no

@@ -59,14 +59,11 @@ Data:
   PDF-rapporter: []
   Forberedte data:
     Kodebøker: []
-Saros_{{prosjekt_initialer}}:
+Saros:
   Skript: []
   Ressurser: []
   Utkastgenereringer:
-    main: []
-    Rapporter: []
-  Utkast i redigering:
-    main: []
+    Main: []
     Rapporter: []
   Fullførte utkast:
     main: []
