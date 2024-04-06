@@ -60,13 +60,13 @@ Data:
   Forberedte data:
     Kodebøker: []
 Saros:
-  Skript: []
-  Ressurser: []
-  Utkastgenereringer:
+  Script: []
+  Resources: []
+  Draft_generations:
     Main: []
     Rapporter: []
-  Fullførte utkast:
-    main: []
+  Completed_drafts:
+    Main: []
     Rapporter: []
 Publikasjoner:
   Paper1-Short title (author initials):
