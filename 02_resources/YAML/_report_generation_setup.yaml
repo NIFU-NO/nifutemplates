@@ -4,13 +4,13 @@ mesos_report: false
 mesos_var: ~
 index_yaml_file: '02_Resources/YAML/index_header.yaml'
 chapter_yaml_file: '02_Resources/YAML/chapter_header.yaml'
-chapter_yaml_file: '02_Resources/YAML/report_header.yaml'
+report_yaml_file: '02_Resources/YAML/report_header.yaml'
 qmd_start_section_filepath: '02_Resources/QMD/_start_section.qmd'
 qmd_end_section_filepath: '02_Resources/QMD/_end_section.qmd'
 index_filename: index.qmd
 element_names:
  - uni_cat_prop_plot
- - uni_cat_table
+ - bi_catcat_prop_plot
  # - uni_chr_table
  # - uni_cat_freq_plot
  # - uni_sigtest
