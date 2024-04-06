@@ -1,11 +1,10 @@
 website:
-  title: "NIFU-PROSJEKT: Endre tittel i _quarto.yaml"
+  title: "PROSJEKTTITTEL"
   navbar:
-    logo: "https://www.nifu.no/wp-content/uploads/logo_hvit.png"
+    logo: "https://www.nifu.no/wp-content/uploads/logo_hvit.png"
     left:
-      - id: main
-        title: "Om prosjektet"
-        contents: "main"
+      - text: "Om prosjektet"
+        file: "main/om_prosjektet.qmd"
       - sidebar:reports
   sidebar:
     - id: reports
@@ -23,5 +22,5 @@ execute:
   freeze: auto
   cache: false
 
-metadata-files: # Defaults for all NIFU projects
+metadata-files: # Defaults for all the organization's projects
   - _global.yaml # Must be in same folder/subfolder

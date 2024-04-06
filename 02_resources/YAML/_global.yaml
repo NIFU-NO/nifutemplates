@@ -1,14 +1,12 @@
 project:
   type: website # Bytt til book om man vil prøve ut bokformat (eksperimentelt)
   preview:
-    # port: 3000
     browser: true
     host: 127.0.0.1
     navigate: true
   pre-render:
     - "_extensions/rename_duplicate_labels.R"
-  post-render:
-    - "_extensions/render_full_versions.R"
+#  post-render:
 #    - "_extensions/replace_docx_images_with_mscharts.R"
 filters:
   - remove_empty_headings
@@ -16,15 +14,13 @@ execute:
   echo: false
   warning: false
   message: false
+
   execute-dir: project
 
 website:
   navbar:
     search: true
   page-navigation: true
-  # page-footer:
-  #   left: "NIFU-ikon"
-  #   center: "NIFU, 2022"
   reader-mode: true
 
 ### Nummerering av overskrifter og innholdsfortegnelse
