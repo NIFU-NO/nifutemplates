@@ -1,7 +1,8 @@
+[//]: # (Slett denne eller bytt ut med prosjektmappens struktur og annen informasjon som skal overleve prosjektmedlemmene. Hva trenger nye prosjektmedlemmer å huske på? Finnes filer andre steder også?)
 
 # nifutemplates
 - Title: Template Files for NIFU
-- Version: 0.3
+- Version: 0.4
 - Author: Stephan Daus, NIFU, Norway. ORCID: 0000-0003-0230-6997
 - This is a container for template files used at the Nordic Institute 
     for the Studies of Innovation, Research and Education (NIFU). Templates are 
