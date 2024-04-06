@@ -21,13 +21,11 @@ paths$drafts_completed <-
 
 
 paths$site <-
-  fs::path(Sys.getenv("TEMP"), "Saros", "CriThiSE")
+  fs::path(Sys.getenv("TEMP"), "Saros", "PROSJEKTTITTEL")
 paths$site_drafts_completed <-
   fs::path(paths$site)
 paths$site_resources <-
   fs::path(paths$site, "02_resources")
-
-paths$topImagePath <- here::here("02_resources", "_images", "cover_ovre.png")
 
 paths$saros <-
   here::here()
