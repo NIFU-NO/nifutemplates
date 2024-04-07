@@ -1,5 +1,6 @@
 website:
   title: "PROSJEKTTITTEL"
+  site-url: "prosjektforkortelse.nifu.no"
   navbar:
     logo: "https://www.nifu.no/wp-content/uploads/logo_hvit.png"
     left:

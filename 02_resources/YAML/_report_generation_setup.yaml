@@ -39,7 +39,7 @@ auxiliary_variables: ~
 panel_tabset_mesos: true
 attach_chapter_dataset: true
 hide_label_if_prop_below: .01
-hide_bi_entry_if_sig_above: 0.05
+hide_bi_entry_if_sig_above: 1.0
 colour_palette_nominal:
 - '#C84957'
 - '#363636'

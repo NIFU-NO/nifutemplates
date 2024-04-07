@@ -71,7 +71,6 @@ cache.comments: false
 date: "`r Sys.Date()`"
 date-format: DD.MM.YYYY
 issn: "1894-8200 (online)"
-title: "`r basename(getwd())`"
 
 format:
   typst: default

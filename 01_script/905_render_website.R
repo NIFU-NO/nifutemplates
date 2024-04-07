@@ -14,13 +14,17 @@ fs::file_copy(path =
                                                        "_global.yaml")),
                   file.path(paths$resources, "CSS", c("styles.css",
                                                       "styles.scss")),
-                  file.path(paths$resources, "CitationStyles", "bib_style.csl")),
+                  file.path(paths$resources, "CitationStyles", "bib_style.csl"),
+                  file.path(paths$resources, "Rscripts", "general_formatting.R"),
+                  file.path(paths$resources, "Rscripts", "general_formatting.R")),
               new_path =
                 c(file.path(paths$site, c("_quarto.yaml",
                                           "_global.yaml")),
                   file.path(paths$site, c("styles.css",
                                           "styles.scss")),
-                  file.path(paths$site, "bib_style.csl")),
+                  file.path(paths$site, "bib_style.csl"),
+                  file.path(paths$site, "general_formatting.R"),
+                  file.path(paths$site, "Rapporter", "Innsamling 2", "general_formatting.R")),
               overwrite = TRUE)
 
 fs::dir_copy(path = file.path(paths$resources, "_images"),

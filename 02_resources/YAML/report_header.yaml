@@ -1,4 +1,5 @@
 ---
+title: "`r basename(getwd())`"
 report_no: "20XX:X"
 abstract: ""
 preface: ""
