@@ -5,7 +5,7 @@ project:
     host: 127.0.0.1
     navigate: true
   pre-render:
-    - "_extensions/rename_duplicate_labels.R"
+    - "_extensions/NIFU-NO/rename_duplicate_labels/rename_duplicate_labels.R"
 #  post-render:
 #    - "_extensions/replace_docx_images_with_mscharts.R"
 filters:

@@ -9,6 +9,7 @@ signer_2_title: "Direktør"
 figure_table: true
 table_table: true
 report_type: rapport
+sidebar: false
 format:
   nifu_pub-typst: default
   nifudocx-docx: default

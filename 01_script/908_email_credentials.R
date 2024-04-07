@@ -1,15 +1,16 @@
 
+
 eposter <-
   saros::create_email_credentials(local_basepath = paths$site_drafts_completed,
                                   rel_path_base_to_parent_of_user_restricted_folder =
                                       fs::path("Rapporter", paste0(cycle, c("_Larere", "_Elever")), "Skoler"),
-                                  email_data_frame = 
+                                  email_data_frame =
                                     readxl::read_excel(here::here("..", "..", "Rekruttering av skoler og utvalg", "Utvalgslister.xlsx"), sheet="Skoler") |>
                                     dplyr::select(username=Skolenavn, email=`Kontaktpersons epost`, Fornavn = `Skoleleder/kontakt-fornavn`) |>
-                                    dplyr::mutate(username = stringr::str_replace(username, "s+kolan| skole NÅ: Krokstadøra oppvekstsenter| oppvekstsenter| barne- og ungdoms+k[uo]le| barnesk[ou]le| sk[ou]le", "")) %>% 
-                                    tidyr::separate_longer_delim(cols = email, delim=";") %>% 
-                                    tidyr::separate_longer_delim(cols = Fornavn, delim=";") %>% 
-                                    dplyr::filter(!is.na(email), !is.na(username), username != "Dalabrekka") %>% 
+                                    dplyr::mutate(username = stringr::str_replace(username, "s+kolan| skole NÅ: Krokstadøra oppvekstsenter| oppvekstsenter| barne- og ungdoms+k[uo]le| barnesk[ou]le| sk[ou]le", "")) %>%
+                                    tidyr::separate_longer_delim(cols = email, delim=";") %>%
+                                    tidyr::separate_longer_delim(cols = Fornavn, delim=";") %>%
+                                    dplyr::filter(!is.na(email), !is.na(username), username != "Dalabrekka") %>%
                                     dplyr::distinct(username, email, .keep_all = TRUE),
                                   email_col= "email",
                                   username_col = "username",
@@ -26,7 +27,7 @@ For å få tilgang til sammendrag av svar for {username}, gå til 'Skoler' og bl
   Passord: {password}
 
 For de få av dere som mottok tilsvarende for lærerundersøkelsen så skal det være samme brukernavn og passord.
-For mer informasjon, se veiledningen på https://saros.nifu.no/#tips-og-triks-for-brukere. Merk at vi ikke har kapasitet til å tolke, forklare eller tilpasse utover det som er tilgjengeliggjort. Dersom en side eller figur er tom skyldes det blant annet anonymitetshensyn. 
+For mer informasjon, se veiledningen på https://saros.nifu.no/#tips-og-triks-for-brukere. Merk at vi ikke har kapasitet til å tolke, forklare eller tilpasse utover det som er tilgjengeliggjort. Dersom en side eller figur er tom skyldes det blant annet anonymitetshensyn.
 
 
 På vegne av prosjektgruppen i Critical Thinking in Sustainability Education (CriThiSE),
@@ -46,10 +47,10 @@ if(nrow(eposter)>0) {
         set_body(eposter[i, "body"][[1]], content_type = "html")$
         set_recipients(to = eposter[i, "to"][[1]])$
         set_subject(eposter[i, "subject"][[1]])
-      
+
       if(isTRUE(send_emails)) {
-        ny_epost$send() 
-        
+        ny_epost$send()
+
         cat(paste0("Eposter med passord er utsendt til ", params$cycle, "/", params$response_group, " den ", Sys.time()),
             file = here::here("_email_credentials_log.txt"), append = TRUE)
       }

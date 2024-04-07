@@ -5,9 +5,14 @@ mesos_var: ~
 index_yaml_file: '02_resources/YAML/index_header.yaml'
 chapter_yaml_file: '02_resources/YAML/chapter_header.yaml'
 report_yaml_file: '02_resources/YAML/report_header.yaml'
-qmd_start_section_filepath: '02_resources/QMD/_start_section.qmd'
-qmd_end_section_filepath: '02_resources/QMD/_end_section.qmd'
-index_filename: index.qmd
+chapter_qmd_start_section_filepath: '02_resources/QMD/chapter_start_section.qmd'
+chapter_qmd_end_section_filepath: '02_resources/QMD/chapter_end_section.qmd'
+report_qmd_start_section_filepath: '02_resources/QMD/report_start_section.qmd'
+report_qmd_end_section_filepath: '02_resources/QMD/report_end_section.qmd'
+index_qmd_start_section_filepath: '02_resources/QMD/index_start_section.qmd'
+index_qmd_end_section_filepath: '02_resources/QMD/index_end_section.qmd'
+index_filename: index
+report_filename: 0_report
 element_names:
  - uni_cat_prop_plot
  - bi_catcat_prop_plot
