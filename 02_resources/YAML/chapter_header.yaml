@@ -6,6 +6,7 @@ format:
 execute:
   echo: false
   warning: false
+  message: false
   cache: false
 toc: true
 toc-depth: 4
@@ -14,7 +15,11 @@ crossref:
  fig-title: '**Figur**'
  tbl-title: '**Tabell**'
  title-delim: '**.**'
- fig-prefix: Figur
- tbl-prefix: Tabell
+ fig-prefix: figur
+ tbl-prefix: tabell
 lang: "nb"
+number-sections: true
+number-depth: 3
+df-print: kable
+
 ---

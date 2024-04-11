@@ -14,7 +14,6 @@ execute:
   echo: false
   warning: false
   message: false
-
   execute-dir: project
 
 website:
@@ -41,8 +40,8 @@ crossref:
  lof-title: 'Figuroversikt'
  lot-title: 'Tabelloversikt'
  title-delim: '**.**'
- fig-prefix: Figur
- tbl-prefix: Tabell
+ fig-prefix: figur
+ tbl-prefix: tabell
  ref-hyperlink: true
  labels: arabic
 # custom:
