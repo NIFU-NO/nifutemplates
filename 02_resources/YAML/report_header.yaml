@@ -13,5 +13,6 @@ report_type: rapport
 sidebar: false
 format:
   nifu_pub-typst: default
-  nifudocx-docx: default
+  nifudocx-docx:
+    numbered-sections: false
 ---

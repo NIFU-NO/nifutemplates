@@ -28,6 +28,8 @@ element_names:
  # - bi_sigtest
 sort_by: .upper
 data_label: 'percentage_bare'
+tabular_format: 'xlsx'
+serialized_format: 'qs'
 always_show_bi_for_by: ~
 categories_treated_as_na:
 - 'Benyttes ikke'
@@ -78,3 +80,4 @@ translations:
     - mesos_group_prefix: ' For gruppe: '
     - mesos_group_suffix: ''
     - mesos_label_all_others: 'Alle andre'
+log_file: "draft_generation_log.txt"
