@@ -1,0 +1,6 @@
+single_y_bivariates_if_indep_cats_above: 3
+single_y_bivariates_if_deps_above: 20
+always_show_bi_for_by: ~
+hide_bi_entry_if_sig_above: 1.0
+hide_chunk_if_n_below: 10
+log_file: "refine_data_overview_log.txt"

@@ -21,5 +21,7 @@ lang: "nb"
 number-sections: true
 number-depth: 3
 df-print: kable
-
+fig-dpi: 900
+params:
+ mesos_group: ~
 ---

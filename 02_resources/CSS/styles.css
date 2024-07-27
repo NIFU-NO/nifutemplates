@@ -1,6 +1,7 @@
 caption, .table-caption {
   text-align: left;
   font-weight: bold;
+  color: black;
 }
 caption, .figure-caption {
   text-align: left;

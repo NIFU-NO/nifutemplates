@@ -1,8 +1,15 @@
 ---
 title: "`r basename(getwd())`"
-report_no: "20XX:X"
+date: "`r Sys.Date()`"
+date-format: DD.MM.YYYY
+report_no: "202X:X"
 abstract: ""
 preface: ""
+isbn: ""
+issn: "1894-8200 (online)"
+project_no: '2XXXXX'
+funder: "Utdanningsdirektoratet"
+funder_address: "Schweigaards gate 15B, 0191 Oslo"
 signer_1: "XXXXXXX"
 signer_1_title: "Forskningsleder"
 signer_2: "Vibeke Opheim"
@@ -14,5 +21,5 @@ sidebar: false
 format:
   nifu_pub-typst: default
   nifudocx-docx:
-    numbered-sections: false
+    number-sections: false
 ---

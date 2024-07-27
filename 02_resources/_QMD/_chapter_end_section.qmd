@@ -1,0 +1,14 @@
+::: {{#tbl-sigtest-table-{.chapter_foldername} }}
+
+``````{{r}}
+sigtest_table_{.chapter_foldername} <- 
+    makeme(data = data_{.chapter_foldername},
+        dep = everything(),
+        indep = everything(),
+        type = "sigtest_table_html")
+gt(sigtest_table_{.chapter_foldername})
+``````
+
+_Significance tests_.
+
+:::

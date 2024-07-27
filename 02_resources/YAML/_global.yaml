@@ -6,8 +6,6 @@ project:
     navigate: true
   pre-render:
     - "_extensions/NIFU-NO/rename_duplicate_labels/rename_duplicate_labels.R"
-#  post-render:
-#    - "_extensions/replace_docx_images_with_mscharts.R"
 filters:
   - remove_empty_headings
 execute:
@@ -54,6 +52,8 @@ crossref:
 fig-cap-location: bottom
 tbl-cap-location: top
 
+### Oppsummeringer og annet
+callout-icon: false
 
 lang: "nb"
 license: "CC BY 4.0"
@@ -67,12 +67,9 @@ reference-location: margin
 citation-location: margin
 appendex-cite-as: false
 cache.comments: false
-date: "`r Sys.Date()`"
-date-format: DD.MM.YYYY
-issn: "1894-8200 (online)"
+
 
 format:
-  typst: default
   html:
     mainfont: "Calibri"
     fontsize: "10.5"

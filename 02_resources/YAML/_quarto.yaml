@@ -12,13 +12,6 @@ website:
       title: "Rapporter"
       contents: "Rapporter"
 
-project_no: '2XXXXX'
-funder: Utdanningsdirektoratet
-funder_address: Schweigaards gate 15B, 0191 Oslo
-isbn: 978-82-327-0607-5
-figure_table: true
-table_table: true
-
 execute:
   freeze: auto
   cache: false

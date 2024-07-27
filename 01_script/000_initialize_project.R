@@ -21,7 +21,7 @@ paths$drafts_completed <-
 
 
 paths$site <-
-  fs::path(Sys.getenv("TEMP"), "Saros", "PROSJEKTTITTEL")
+  fs::path(Sys.getenv("USERPROFILE"), "Saros", "PROSJEKTTITTEL")
 paths$site_drafts_completed <-
   fs::path(paths$site)
 paths$site_resources <-

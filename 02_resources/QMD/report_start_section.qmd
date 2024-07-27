@@ -1,8 +1,0 @@
-```{r}
-#| results: asis
-list.files(pattern="^[^0]_.+\\.qmd", recursive = FALSE, include.dirs = FALSE, no.. = TRUE) |>
-  grep(x=_, pattern = "index\\.qmd", value=TRUE, invert=TRUE) |>
-  lapply(X=_, FUN = function(x) knitr::knit_child(x, quiet=TRUE)) |>
-  unlist() |>
-  cat(sep = "\\n")
-```

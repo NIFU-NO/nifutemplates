@@ -1,0 +1,13 @@
+# Only list arguments in draft_report() that deviates from defaults in the function.
+index_yaml_file: '02_resources/YAML/_index_header.yaml'
+chapter_yaml_file: '02_resources/YAML/_chapter_header.yaml'
+report_yaml_file: '02_resources/YAML/_report_header.yaml'
+chapter_qmd_start_section_filepath: '02_resources/_QMD/_chapter_start_section.qmd'
+chapter_qmd_end_section_filepath: '02_resources/_QMD/_chapter_end_section.qmd'
+report_qmd_start_section_filepath: '02_resources/_QMD/_report_start_section.qmd'
+report_qmd_end_section_filepath: '02_resources/_QMD/_report_end_section.qmd'
+index_qmd_start_section_filepath: '02_resources/_QMD/_index_start_section.qmd'
+index_qmd_end_section_filepath: '02_resources/_QMD/_index_end_section.qmd'
+serialized_format: 'qs'
+auxiliary_variables: ~
+log_file: "draft_report_log.txt"

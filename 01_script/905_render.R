@@ -1,6 +1,6 @@
 ## Post-PISVEEP (rendering of website)
 
-## Ikke nødvendig her om man agrer direkte i lokal mappe ##
+## Ikke nødvendig her om man lagrer direkte i lokal mappe ##
 ## Derimot nødvendig dersom man jobber med filene i skylagring ##
 ## OBS! Denne naive kopiering av filer vil medføre at cache/freeze kan måtte genereres på nytt
 
