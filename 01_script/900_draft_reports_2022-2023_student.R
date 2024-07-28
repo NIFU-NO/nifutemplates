@@ -2,72 +2,57 @@ library(dplyr, quietly = TRUE, warn.conflicts = FALSE)
 conflicted::conflicts_prefer(dplyr::filter, dplyr::lag, .quiet = TRUE)
 
 # Read in survey_data from disk - to ease caching
-survey_data$student[[params$cycle]] <-
-  qs::qread(file = here::here(paths$data$saros_ready$student[[params$cycle]]),
-            strict = TRUE, nthreads = 4)
+survey_data[[params$cycle]][[params$target_group]] <-
+  saros.base::ex_survey
 
 ### Chapter overview
-chapter_overview$student[[params$cycle]] <-
-  tibble::tibble(chapter = c("Kildekritikk", 
-                             "Argumentasjon", 
-                             "Ulv, ulv, ulv", 
-                             "Observasjon og forklaring", 
-                             "Meninger", 
-                             "Tillit til forskere", 
-                             "Sosiale medier",
-                             "Tillit til kilder",
-                             "Samtaler i hjemmet"),
-                 dep = c("matches('^q_[2-9]_|^q_1[0-7]_')",  
-                         "matches('^q_1[7-9]_|^q_2[0-9]_|^q_30_')", 
-                         "matches('^u_')", 
-                         "matches('^q_3[1-9]')", 
-                         "matches('^m_')", 
-                         "matches('^f_')", 
-                         "matches('^so_')", 
-                         "matches('^k_')",
-                         "matches('^s_')"),
-                 indep = c("grade_cyc3, treated"))
+chapter_overview[[params$cycle]][[params$target_group]] <-
+  saros.base::ex_survey_ch_overview
 
 ############################################################
 ## config_report.R
 
-config_macro$student[[params$cycle]] <- 
-  saros::read_default_draft_report_args(
-    path = fs::path(paths$resources, "YAML", "_report_generation_setup.yaml")
-  )
+config_macro[[params$cycle]][[params$target_group]] <-
+  saros.utils::read_default_draft_report_args(path = paths$nifu_global_draft_report_settings)
 
-config_macro$student[[params$cycle]]$title <- paste0(params$cycle, " - Elever") 
+config_macro[[params$cycle]][[params$target_group]]$title <- paste0(params$cycle, " - ", params$target_group)
+config_macro[[params$cycle]][[params$target_group]]$path <- fs::path(paths$site, "Rapporter", params$cycle, params$target_group)
 
 # tryCatch(fs::dir_delete(fs::path(paths$site,
 #                                  "Rapporter", params$cycle, "Elever")), error=function(e) cli::cli_warn(e))
 
-# saros::draft_report(data = survey_data$student[[params$cycle]],
-#                     chapter_overview = chapter_overview$student[[params$cycle]],
-#                     !!!config_macro$student[[params$cycle]],
-#                     path = fs::path(paths$site, "Rapporter", params$cycle, "Elever"))
+chapter_structure <-
+  saros.base::refine_chapter_overview(
+  chapter_overview = chapter_overview[[params$cycle]][[params$target_group]],
+  data = survey_data[[params$cycle]][[params$target_group]],
+  chunk_templates =
+    saros.base::get_chunk_template_defaults() |>
+    dplyr::filter(!(.template_name %in% c("cat_table_html", "sigtest_table_html"))),
+  always_show_bi_for_indep = c("x1_sex", "x3_nationality"),
+  hide_bi_entry_if_sig_above = .05)
+
+saros.base::draft_report(chapter_structure = chapter_structure,
+                           data = survey_data[[params$cycle]][[params$target_group]],
+                           !!!config_macro[[params$cycle]][[params$target_group]])
 
 
 ## Mesos-rapporter
-config_mesos$student[[params$cycle]] <- config_macro$student[[params$cycle]]
-config_mesos$student[[params$cycle]]$title <- ""
-config_mesos$student[[params$cycle]]$mesos_report <- TRUE
-config_mesos$student[[params$cycle]]$sort_by <- ".variable_name"
-config_mesos$student[[params$cycle]]$element_names <- c("uni_cat_prop_plot")
-config_mesos$student[[params$cycle]]$mesos_var <- "school"
-
+config_mesos[[params$cycle]][[params$target_group]] <- config_macro[[params$cycle]][[params$target_group]]
+config_mesos[[params$cycle]][[params$target_group]]$title <- ""
+saros.base::draft_report(chapter_structure = chapter_structure,
+                         data = survey_data[[params$cycle]][[params$target_group]],
+                         !!!config_mesos[[params$cycle]][[params$target_group]])
 
 saros::draft_report(
   data =
-    survey_data$student[[params$cycle]] %>%
-    dplyr::group_by(.data[["school"]]) %>%
-    dplyr::filter(dplyr::n()>10) %>%
-    dplyr::ungroup() %>%
-    labelled::set_variable_labels(school = "Skole"),
+    survey_data[[params$cycle]][[params$target_group]] |>
+    dplyr::filter(dplyr::n()>10, .by = tidyselect::all_of(params$mesos_group)) |>
+    labelled::set_variable_labels(.labels = setNames(labelled::var_labels(survey_data[[params$cycle]][[params$target_group]][[params$mesos_group]]),
+                                                     params$mesos_group)),
   chapter_overview =
-    chapter_overview$student[[params$cycle]] %>%
+    chapter_overview[[params$cycle]][[params$target_group]] %>%
     dplyr::mutate(indep = NULL),
   sort_by = NULL,
-  !!!config_mesos$student[[params$cycle]],
-  path = fs::path(paths$site, "Rapporter", params$cycle, "Elever", "Skoler"))
+  !!!config_mesos[[params$cycle]][[params$target_group]],
+  path = fs::path(paths$site, "Rapporter", params$cycle, params$target_group, params$mesos_group))
 
-### PISVEEP: Manuelt arbeid! ###

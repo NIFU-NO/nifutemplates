@@ -30,7 +30,7 @@ c("2022-2023") |>
   dplyr::bind_rows(.id = "cycle") |>
   writexl::write_xlsx(fs::path(paths$saros, "_username_folder_matching_df.xlsx"))
 
-saros::setup_access_restrictions(
+saros.utils::setup_access_restrictions(
   remote_basepath = "/home/nifuno/domains/stephan/crithise.nifu.no/public_html/",
   local_basepath = file.path(paths$site, "_site"),
   rel_path_base_to_parent_of_user_restricted_folder =

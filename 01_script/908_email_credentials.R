@@ -1,7 +1,7 @@
 
 
 eposter <-
-  saros::create_email_credentials(local_basepath = paths$site_drafts_completed,
+  saros.utils::create_email_credentials(local_basepath = paths$site_drafts_completed,
                                   rel_path_base_to_parent_of_user_restricted_folder =
                                       fs::path("Rapporter", paste0(cycle, c("_Larere", "_Elever")), "Skoler"),
                                   email_data_frame =
