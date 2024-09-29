@@ -1,4 +1,4 @@
-```{r}
+```{{r}}
 #| results: asis
 fs::dir_ls(path = ".", regexp = "\\.qmd", recurse = TRUE, type = "file") |>
   grep(x=_, pattern = "index\\.qmd|0_report\\.qmd|/_|_arkiv", value=TRUE, invert=TRUE) |>

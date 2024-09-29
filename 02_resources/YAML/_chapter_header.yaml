@@ -2,7 +2,6 @@
 format:
   html: default
   nifudocx-docx: default
-  nifu_pub-typst: default
 execute:
   echo: false
   warning: false
@@ -23,5 +22,6 @@ number-depth: 3
 df-print: kable
 fig-dpi: 900
 params:
+ mesos_var: ~
  mesos_group: ~
 ---

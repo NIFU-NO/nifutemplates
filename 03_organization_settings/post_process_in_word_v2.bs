@@ -1,0 +1,348 @@
+Sub NIFU_Saros_post_process()
+    
+    ' TODO:
+    ' Tabell-captions
+    ' Referanser i tekst =>
+    ' Selection.InsertCaption Label := wdCaptionFigure, Title := ". bla bla", Position := wdCaptionPositionBelow
+    ' Modifiser "NIFU_tabell 1"
+
+    ' Officer: Rapportnummer, år, ISBN, etc as metadata
+    ' Officer: TOC, figurliste, tabelliste
+    ' Også avsnitt etter vanlige figurer (ikke quarto) bør formateres riktig.
+    ' Argumenter fremfor hardkoding
+    ' Skille mellom Quarto-generiske makroer, NIFU-spesifikke ting, etc
+    
+    
+    nifu_table_autonum = True ' Is applied to tables without a nested table.
+    nifu_table_crossref = False ' Not implemented
+    nifu_figure_crossref = False ' Not implemented
+    nifu_figure_autonum = False ' Ok
+    nifu_table_autostyle = True ' Ok. 2.5 not processed, inconsequently applied
+    nifu_table_autostyle_signatures = True ' FUNGERER IKKE
+    nifu_table_style = "NIFU_tabell 1" ' Ok
+    nifu_table_style_adjust_to_apa = True ' FUNGERER IKKE
+    nifu_keep_figtbl_caption_together = False ' Ok
+    nifu_set_single_cell_tbl_margins = False ' Ok
+    nifu_paragraph_after_figtbl_style = False ' Ok
+    nifu_remove_xlsx_hyperlinks = False ' Ok
+    nifu_replace_heading_styles = False ' Ok
+    nifu_delete_pandoc_styles = False ' Should check they are not in use, and must add more
+
+    
+    
+    Application.ScreenUpdating = False
+    
+    
+    Dim doc As Document
+    Dim hl As Hyperlink
+    Dim i As Integer
+    Dim tbl As Table
+    Dim rng As Range
+    Dim para As Paragraph
+    Dim inlineShape As inlineShape
+    Dim searchRange As Range
+    
+
+    Set doc = ActiveDocument
+
+    
+    ' ADJUST TABLE STYLE TO APA
+    If nifu_table_style_adjust_to_apa Then
+        ' Check if the style nifu_table_style exists, if not, create it
+        On Error Resume Next
+        Set Style = doc.Styles(nifu_table_style)
+        On Error GoTo 0
+    
+        If Style Is Nothing Then
+            Set Style = doc.Styles.Add(Name:=nifu_table_style, Type:=wdStyleTypeTable)
+        End If
+        
+        With Style.ParagraphFormat
+            .KeepWithNext = True
+            .KeepTogether = True
+        End With
+
+        ' Modify the "NIFU_tabell 1" style to match APA guidelines
+        With Style.Table
+            .Borders(wdBorderLeft).LineStyle = wdLineStyleNone
+            .Borders(wdBorderRight).LineStyle = wdLineStyleNone
+            .Borders(wdBorderHorizontal).LineStyle = wdLineStyleNone
+            .Borders(wdBorderVertical).LineStyle = wdLineStyleNone
+            .Borders(wdBorderBottom).LineStyle = wdLineStyleSimple
+            .Borders(wdBorderTop).LineStyle = wdLineStyleSimple
+            .Condition(wdFirstRow).Borders(wdBorderBottom).LineStyle = wdLineStyleNone
+            
+            
+        End With
+    End If
+    
+        
+    ' SET nifu_table_autostyle AS DEFAULT
+    If nifu_table_autostyle Then
+        ActiveDocument.SetDefaultTableStyle Style:=nifu_table_style, SetInTemplate:=False
+    End If
+    
+    
+    ' TABLES
+    For Each tbl In doc.Tables
+    
+        ' ONLY SINGLE-CELLED TABLES WITH AT LEAST ONE NESTED TABLE
+        If tbl.Rows.Count = 1 And _
+           tbl.Columns.Count = 1 Then
+        
+           Set cell = tbl.cell(1, 1)
+
+           
+           
+           If nifu_table_autostyle And _
+              tbl.Tables.Count > 0 Then
+                
+                For Each nestedTbl In tbl.Tables
+                     Debug.Print "Nested Table has Rows: " & nestedTbl.Rows.Count & ", Columns: " & nestedTbl.Columns.Count & "; nested at ", nestedTbl.NestingLevel
+    
+                    ' FORMAT NESTED TABLE(S)
+                     With nestedTbl
+                        .Range.Style = "NIFU_tabell kropp"
+                        .AutoFitBehavior wdAutoFitContent
+                        .Style = nifu_table_style
+                        .ApplyStyleHeadingRows = True
+                        .ApplyStyleRowBands = True
+                        .ApplyStyleColumnBands = False
+                        .ApplyStyleFirstColumn = False
+                     End With
+                     
+                     If nifu_keep_figtbl_caption_together Then
+                        nestedTbl.Rows.AllowBreakAcrossPages = False
+                     End If
+                     
+                 Next nestedTbl
+            End If
+            
+            
+            
+            ' FIGURE AUTONUMBERED CAPTION
+            If nifu_figure_autonum And _
+                cell.Range.InlineShapes.Count = 1 Then
+                
+                ' Get the inline shape (figure)
+                Set inlineShape = cell.Range.InlineShapes(1)
+                ' Set the range to the inline shape
+                Set rng = inlineShape.Range
+                rng.Collapse Direction:=wdCollapseEnd
+                ' Create a range for searching the next paragraph
+                Set searchRange = cell.Range
+
+                ' Remove existing label matching in the following paragraph
+                searchRange.Find.Execute FindText:="Figur^s[0-9]@\. ", MatchWildcards:=True, Forward:=True, Wrap:=wdFindStop, ReplaceWith:="", Replace:=wdReplaceAll
+                searchRange.Find.Execute FindText:="Figur^s[0-9]@\.[0-9]@\. ", MatchWildcards:=True, Forward:=True, Wrap:=wdFindStop, ReplaceWith:="", Replace:=wdReplaceAll
+                
+                ' Insert a new paragraph for the figure label directly after the image
+                rng.InsertParagraphAfter
+                rng.Collapse Direction:=wdCollapseEnd
+
+
+                ' Select the range to insert text and fields in the correct order
+                rng.Select
+                Selection.TypeText Text:="Figur "
+                Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, Text:="STYLEREF 1 \s", PreserveFormatting:=False
+                Selection.TypeText Text:="."
+                Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, Text:="SEQ Figure \* ARABIC \s 1", PreserveFormatting:=False
+                Selection.TypeText Text:=". "
+                Selection.Delete Unit:=wdCharacter, Count:=1
+
+                ' Apply the style "NIFU_figur tittel" to the inserted figure label
+                Selection.Paragraphs(1).Style = "NIFU_figur tittel"
+                
+            End If
+            
+
+            ' TABLE AUTONUMBERED CAPTION
+            If nifu_table_autonum And _
+                cell.Range.InlineShapes.Count = 0 And _
+                cell.Range.Tables.Count = 1 And _
+                Not tbl.Borders.HasVertical Then
+            
+                Set nestedTbl = cell.Range.Tables(1)
+                
+                Debug.Print "Rows: " & nestedTbl.Rows.Count & "; Columns" & nestedTbl.Columns.Count
+                
+                
+                Set rng = nestedTbl.Range
+                rng.Collapse Direction:=wdCollapseStart
+
+                
+                ' Create a range for searching the next paragraph
+                Set searchRange = cell.Range
+                ' searchRange.MoveStart wdParagraph, 1
+
+                ' Remove existing label
+                searchRange.Find.Execute FindText:="Tabell^s[0-9]@\. ", MatchWildcards:=True, Forward:=True, Wrap:=wdFindStop, ReplaceWith:="", Replace:=wdReplaceAll
+                searchRange.Find.Execute FindText:="Tabell^s[0-9]@\.[0-9]@\. ", MatchWildcards:=True, Forward:=True, Wrap:=wdFindStop, ReplaceWith:="", Replace:=wdReplaceAll
+                
+                ' Insert new label at beginning of the outer table
+                rng.InsertParagraphBefore
+                rng.Collapse Direction:=wdCollapseStart
+                rng.Select
+                Selection.TypeText Text:="Tabell "
+                Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, Text:="STYLEREF 1 \s", PreserveFormatting:=False
+                Selection.TypeText Text:="."
+                Selection.Fields.Add Range:=Selection.Range, Type:=wdFieldEmpty, Text:="SEQ Table \* ARABIC \s 1", PreserveFormatting:=False
+                Selection.TypeText Text:=". "
+                Selection.Delete Unit:=wdCharacter, Count:=1
+
+                ' Apply the style "NIFU_figur tittel" to the inserted figure label
+                Selection.Paragraphs(1).Style = "NIFU_tabell tittel"
+            End If
+             
+        End If
+        
+        ' FORMAT REGULAR TABLES WITHOUT NESTED TABLES
+        If nifu_table_autostyle And _
+            tbl.Rows.Count > 2 And _
+            tbl.Columns.Count > 2 And _
+            tbl.Tables.Count = 0 Then
+            
+             With tbl
+                .Range.Style = "NIFU_tabell kropp"
+                .AutoFitBehavior wdAutoFitContent
+                .Style = nifu_table_style
+                .ApplyStyleHeadingRows = True
+                .ApplyStyleRowBands = True
+                .ApplyStyleColumnBands = False
+                .ApplyStyleFirstColumn = False
+             End With
+        End If
+        
+        ' FORMAT FORORD-SIGNATURE TABLE (AND ANY OTHER 2x2 TABLES)
+        If nifu_table_autostyle_signatures And _
+            tbl.Rows.Count = 2 And _
+            tbl.Columns.Count = 2 And _
+            tbl.Tables.Count = 0 Then
+            
+             With tbl
+                .Rows.LeftIndent = CentimetersToPoints(1.4)
+                .Columns.PreferredWidthType = wdPreferredWidthPercent
+                .Columns.PreferredWidth = 50
+                .AutoFormat Format:=wdTableFormatNone
+             End With
+        End If
+        
+
+        
+        
+        
+        ' FORMAT PARAGRAPH AFTER ANY TABLE
+        If nifu_paragraph_after_figtbl_style Then
+            Set rng = tbl.Range
+            rng.Collapse Direction:=wdCollapseEnd
+            rng.MoveEnd Unit:=wdParagraph, Count:=1
+    
+            If rng.Paragraphs.Count > 0 And _
+                rng.Paragraphs(1).Style = "Brødtekst" Then
+                
+                rng.Paragraphs(1).Style = "NIFU_Normal første"
+                
+            End If
+        End If
+        
+        ' KEEP FIGURE/TABLE AND THEIR CAPTIONS, AND TABLE ROWS, TOGETHER.
+        If nifu_keep_figtbl_caption_together Then
+          tbl.Rows.AllowBreakAcrossPages = False
+        End If
+
+    
+        If nifu_set_single_cell_tbl_margins Then
+            With tbl
+                .BottomPadding = CentimetersToPoints(0)
+                .LeftPadding = CentimetersToPoints(0)
+                .RightPadding = CentimetersToPoints(0)
+                .TopPadding = CentimetersToPoints(0)
+            End With
+        End If
+    
+    
+    Next tbl
+
+
+
+    ' REMOVE HYPERLINKS WITH XLSX
+    If nifu_remove_xlsx_hyperlinks Then
+        For i = doc.Hyperlinks.Count To 1 Step -1
+            Set hl = doc.Hyperlinks(i)
+            If InStr(hl.TextToDisplay, "xlsx") > 0 Then
+                hl.Range.Delete
+            End If
+        Next i
+    End If
+    
+    
+
+    For Each para In doc.Paragraphs
+        
+        ' REPLACE HEADING AND PARAGRAPH STYLES FROM PANDOC TO NIFU
+        If nifu_replace_heading_styles Then
+            If para.Style = ActiveDocument.Styles(wdStyleHeading1) And _
+                InStr(para.Range.Text, "Forord") > 0 Then
+                
+                para.Style = "NIFU_Overskrift 1 ikke til innhold"
+            End If
+            
+            If para.Style = "Image Caption" Then
+                para.Style = "NIFU_tabell tittel"
+            End If
+            
+            If para.Style = "First Paragraph" Then
+                para.Style = "NIFU_Normal første"
+            End If
+            
+            If para.Style = "NIFU_Overskrift 1 nummerert" Or para.Style = "Overskrift 1" Then
+                para.Style = "NIFU_Overskrift 1 nummerert"
+            End If
+            
+            If para.Style = "Overskrift 2;NIFU_Overskrift 2" Then
+                para.Style = "NIFU_Overskrift 2 nummerert"
+            End If
+            
+            If para.Style = "Overskrift 3;NIFU_Overskrift 3" Then
+                para.Style = "NIFU_Overskrift 3 nummerert"
+            End If
+            
+            If para.Style = "Brødtekst" Then
+                para.Style = "NIFU_Normal"
+            End If
+        End If
+        
+        ' ALSO PARAGRAPHS FOLLOWING A FIGURE CAPTION SHOULD BE FORMATTED AS FIRST PARAGRAPH
+        If nifu_paragraph_after_figtbl_style And para.Style = "NIFU_figur tittel" Then
+            Set nextPara = para.Next
+            Do While Not nextPara Is Nothing And nextPara.Style = "NIFU_Normal"
+                nextPara.Style = "NIFU_normal første"
+                Set nextPara = nextPara.Next
+            Loop
+        End If
+
+        
+    Next para
+    
+    ' DELETE SOME STYLES
+    If nifu_delete_pandoc_styles Then
+        On Error Resume Next
+        doc.Styles("First Paragraph").Delete
+        On Error Resume Next
+        doc.Styles("Compact").Delete
+    End If
+    
+    
+    ' UPDATE ALL FIELDS (INCLUDING TOC/LOT/LOF)
+    With ActiveDocument
+      .Fields.Update
+      .PrintPreview
+      .ClosePrintPreview
+    End With
+
+
+    Application.ScreenUpdating = True
+
+End Sub
+
+

@@ -234,8 +234,6 @@ gt_nifu_style <- function(x) {
 
 saros.contents::makeme_global_settings_set(
   new = list(crowd = 'all',
-             mesos_var = NULL,
-             mesos_group = if(exists("params")) params$mesos_group,
              hide_for_crowd_if_valid_n_below = 8,
              hide_for_crowd_if_category_n_below = 0,
              hide_for_crowd_if_cell_n_below = 0,
@@ -253,7 +251,6 @@ saros.contents::makeme_global_settings_set(
                                             'Ingen av disse'),
              showNA = "never",
              data_label_decimal_symbol = ",",
-             serialized_format = 'qs',
              colour_na = '#A6A6A6',
              colour_2nd_binary_cat = '#ffffff',
              translations = list(
@@ -276,7 +273,7 @@ saros.contents::make_link_global_settings_set(
     link_prefix = "[Last ned figurdata](",
     width = 16, height = 16, units = "cm",
     scale = 1.2,  dpi = "retina",
-    create.dir = TRUE,
+    create.dir = TRUE
 ))
 
 
