@@ -68,15 +68,19 @@ citation-location: margin
 appendex-cite-as: false
 cache.comments: false
 
-
+format-links:
+  - html
+  - format: typst
+	text: PDF
+	icon: file-pdf
 format:
   html:
     mainfont: "Calibri"
     fontsize: "10.5"
     linestretch: 1.6
     theme:
-     - yeti
-     - "styles.scss"
+      light: [yeti, styles.scss]
+      dark: darkly
     css: "styles.css"
     toc: true
     comments:
